@@ -12,6 +12,10 @@ Tech that have been used:
 Other libary :
 1. dayjs (for date)
 
+Feautes so far :
+1. Login (Already authenticated with firebase)
+2. Can posting some status like tweet, etc
+
 Progress: Still in development
 
 ## Team Member

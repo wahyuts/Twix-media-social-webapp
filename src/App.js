@@ -19,6 +19,7 @@ import SignUp from './pages/SignUp';
 // Tujuan dari custom theme ini adalah untuk mengganti style default bawaan dari mat ui sesuai dengan selera kita, karena kalo gak diganti ke lock sama style mat ui
 // Theme beda dari style mat ui,...Theme adalah sekelompok style yang di sharing ke berbagai komponent agar bisa dipakai sama2
 // sedangkan style mat ui atau withStyle mat ui adalah  styles khusus untuk komponent itu aja tempat withStyles digunakan
+// jadi jika ada 2 komponen menggunakan style yang sama maka className nya bisa di masukan disini
 
 //perbandingan nya seperti global css : css khusus untuk komponent tertentu 
 const theme = createTheme({
@@ -39,6 +40,7 @@ const theme = createTheme({
   typography: {
     useNextVariants: true
   }
+
 });
 
 
