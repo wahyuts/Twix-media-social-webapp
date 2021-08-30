@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import AppIcon from '../images/logo-trans.png';
@@ -11,6 +11,11 @@ import {Typography}  from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+//Redux stuff
+import { useDispatch, useSelector } from "react-redux";
+// import {connect} from 'react-redux';
+import {loginUser} from '../redux/actions/userActions';
 
 
 const styles = {
@@ -40,106 +45,50 @@ const styles = {
 }
 
 
+// why pake props padahal ini  fungsional component ? karena props ini buat mat ui doang
 const Login = (props) => {
-// class Login extends Component {
-    // render() {
+
 const {classes} = props;
 
+// mengambil state dari reducer tertentu
+const {loading} = useSelector (state => state.UI);
+const {errors} = useSelector (state => state.UI);
+
+//state locally
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
-const [loading,setLoading] = useState(false);
-const [errors,setErrors] = useState({});
+const [showErrors,setShowErrors] = useState({});
+const dispatch = useDispatch()
 
-// const history = useHistory();
 
 Login.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-//Dibawah ini adalah berbagai tipe jenis fetch dari async await, .then bahkan di combine antara async await dan .then
-// cth kasus nya Login form,..tapi bisa digunakan juga untuk kasus lain (sesuaikan kondisinya)
-
-//Fetch data via async await try catch (dalam hal ini cth kasus login form)
-
-const fetchingData = async () => {
-    //const userData boleh pake boleh tidak,..ini buat merapihkan saja
-    // kalo tidak pake jadi seperti ini  const response = await axios.post('/signin', email,password);
-    const userData = {
-        email: email,
-        password: password
+// useEffect kali ini digunakan untuk error karena:
+//1. errors di call langsung di koponent ketika web di load untuk ngecek apakah ada error atau tidak
+//2. khusus state errors di reducer ketika di call tidak bisa digunakan langsung kecuali memakai state perantara
+//   jadi state errors dari reducer ditampung di state perantara(local), lalu dari state perantara itulah kita 
+//   bisa memakai state errors dari reducer tersebut
+//   cth disini state errors dari reducer di tampung di state showErrors
+useEffect(()=>{
+    if(errors){
+        setShowErrors(errors)
     }
+    console.log(showErrors)
 
-    try{
-        const response = await axios.post('/signin', userData);
-        console.log('hasil login', response.data);
-        // Tambhkan  localStorage.setItem  untuk menyimpan token di local storage,..kalo ga pen nyimpen ga usah pake localStorage.setItem
-        localStorage.setItem('FBIdToken', `Bearer ${response.data.token}`); 
-        setLoading(false);
-        props.history.push("/"); // untuk redirect ke tempat tujuan url
-
-    }
-    catch(err){
-        setErrors(err.response.data);
-        setLoading(false);
-    }
-}
+})
 
 
-//Fetch data via .then (dalam hal ini cth kasus login form)
-
-const fetchingData2 = () => {
-    const userData = {
-        email: email,
-        password: password
-    };
-
-    axios.post('/signin', userData)
-        .then((res)=>{
-            console.log(res.data);
-            setLoading(false);
-            props.history.push("/");
-        })
-        .catch((err)=>{
-            setErrors(err.response.data);
-            setLoading(false)
-        });
-}
-
-
-//Fetch data via combine antara async await dan .then (dalam hal ini cth kasus login form)
-
-const fetchingData3 = async () => {
-    const userData = {
-        email: email,
-        password: password
-    }
-    
-    try{
-        axios.post('/signin', userData)
-        .then((res)=>{
-            console.log(res.data);
-            setLoading(false);
-            props.history.push("/");
-        })
-        .catch((err)=>{
-            setErrors(err.response.data);
-            setLoading(false)
-        });
-
-    }
-    catch(err){
-        setErrors(err.response.data);
-        setLoading(false);
-    }
-}
-
-// fungsi untuk mengirim sebuah isiian yang ada di formulir ke server
-// cara pakai: (hanya bisa di tag <form> dan form lainnya yang sejenis) pakaikan di method onSubmit pada tag <form>
 const handleSubmit = async (event) => {
     // preventDefault mencagah supaya data yang dikirimkan by form tidak tampil di url param sehingga tidak bisa dilihat orang lain
-    event.preventDefault(); 
-    setLoading(true);
-    fetchingData();
+    event.preventDefault();
+    const userData = {
+        email: email,
+        password: password
+    } 
+    dispatch(loginUser(userData, props.history))
+    // fetchingData();
 }
 
 // fungsi untuk mengubah value email pada setiap ketikan yang kita ketik
@@ -176,9 +125,9 @@ console.log(password)
                             className={classes.textField}
                             // helperText adalah method yang disediakan oleh textField by mat ui untuk membantu memunculkan
                             // error jika ada
-                            helperText={errors.email} 
+                            helperText={showErrors.email} 
                             //error property ini yang dipake untuk memunculkan helperText nya,..kalo ada error muncul
-                            error={errors.email ? true : false}
+                            error={showErrors.email ? true : false}
                             value={email} 
                             onChange={handleChangeEmail} 
                             fullWidth
@@ -189,17 +138,16 @@ console.log(password)
                             type="password" 
                             label="Password" 
                             className={classes.textField}
-                            helperText={errors.password}
-                            error={errors.password ? true : false}
+                            helperText={showErrors.password}
+                            error={showErrors.password ? true : false}
                             value={password} 
                             onChange={handleChangePassword} 
                             fullWidth
                             />
-
-                            
-                            {errors.general && ( // baris code ini untuk validasi or cek ke database apakah email or password yang kita masukin ud bener ?
+       
+                            {showErrors.general && ( // baris code ini untuk validasi or cek ke database apakah email or password yang kita masukin ud bener ?
                                 <Typography variant="body2" className={classes.customError}>
-                                    {errors.general}
+                                    {showErrors.general}
                                 </Typography>
                             )}
 
