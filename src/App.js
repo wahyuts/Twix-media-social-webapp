@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import themeFile from './util/theme';
+import AuthRoute from './util/AuthRoute';
+import jwtDecode from 'jwt-decode';
 import './App.css';
 
 //Tool untuk create custom theme Material UI (alias bikin css sendiri ala mat ui)
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles'
 
+//Redux
+import {Provider} from 'react-redux';  // saluran untuk menyalurkan tempat penyimpanan
+import store from './redux/store';
 
 //Components
 import Navbar from './components/Navbar';
@@ -22,47 +28,53 @@ import SignUp from './pages/SignUp';
 // jadi jika ada 2 komponen menggunakan style yang sama maka className nya bisa di masukan disini
 
 //perbandingan nya seperti global css : css khusus untuk komponent tertentu 
-const theme = createTheme({
-  palette:{
-    primary:{
-      light:'#ec407a',
-      main:'#ec407a',
-      dark:'#c2185b',
-      contastText:'#fff'
-    },
-    secondary:{
-      light:'#9575cd',
-      main:'#673ab7',
-      dark:'#4527a0',
-      contastText:'#fff'
+const theme = createTheme(themeFile);
+
+
+const App = () => {
+// class App extends Component {
+  // render() {
+
+  //menyimpan token dari local strogae di variable token
+  const token = localStorage.FBIdToken;
+
+  // jika suatu variable di deklare tanpa value,..berati variable tersebut bernilai kosong saat itu
+  let authenticated;
+
+  // conditional logic jika token kita expired atau habis masa berlakunya maka user akan diarahkan ke halaman login untuk login ulang
+  if(token) {
+    //token adalah kode rahasia yang di encrypt jadi untuk mengetahui isi token diperlukan decode token
+    // untuk decode token kita pake lib jwt-decode
+    const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
+    if(decodedToken.exp * 1000 < Date.now()){
+      window.loaction.href = '/login';
+      authenticated = false;
+    } else {
+      authenticated = true;
     }
-  },
-  typography: {
-    useNextVariants: true
   }
 
-});
-
-
-class App extends Component {
-  render() {
     return (
-      <MuiThemeProvider theme={theme}>
-          <div>
-              <Router>
-                  <div className="container">
-                    <Navbar/>{/**Komponen yang berada diluar switch tapi masih berada didalam router tidak akan terganti komponennya */}
-                    <Switch> {/**Komponen yang berada didalam switch akan terganti jika di klik komponennya */}
-                        <Route exact path='/' component={Home}/>
-                        <Route exact path='/login' component={Login}/>
-                        <Route exact path='/signup' component={SignUp}/>
-                    </Switch>
-                  </div>
-              </Router>
-          </div>
-      </MuiThemeProvider>
+      // Provider dari redux harus me wrap semua komponen agar kompenen tersebut bisa kases global store
+        <MuiThemeProvider theme={theme}>
+          <Provider store={store}>
+            <div>
+                <Router>
+                    <div className="container">
+                      <Navbar/>{/**Komponen yang berada diluar switch tapi masih berada didalam router tidak akan terganti komponennya */}
+                      <Switch> {/**Komponen yang berada didalam switch akan terganti jika di klik komponennya */}
+                          <Route exact path='/' component={Home}/>
+                          <AuthRoute exact path='/login' component={Login} authenticated={authenticated}/>
+                          <AuthRoute exact path='/signup' component={SignUp} authenticated={authenticated}/>
+                      </Switch>
+                    </div>
+                </Router>
+            </div>
+          </Provider>
+        </MuiThemeProvider>
     )
-  }
+  // }
 }
 
 export default App
