@@ -1,0 +1,69 @@
+pra redux (preparation)
+- install dulu redux, thunk, sama react0redux
+
+1. buat folder redux didalam src folder dimana didalam folder redux terdapat
+- folder actions
+- folder reducer
+
+2. didalam folder redux buat file
+- store.js
+- type.js
+
+
+setting environtment or preparation redux
+1. buat settingan store di store.js, seperti 
+- buat initialState,
+- deklarasi thunk
+- make combine reducer
+- dan create store
+(contoh penggunaan liat di file store.js langsung)
+
+2. deklarasikan name type
+(contoh penggunaan liat di file type.js langsung)
+
+3. di app.js import file
+import {Provider} from 'react-redux';  
+import store from './redux/store';
+
+kemudian appit komponen app dengan provider
+(contoh penggunaan liat di file app.js langsung)
+
+
+cara pakai redux 
+-untuk mengirimkan data/ merubah nilai suatu state yang terdapat didalam reducer dan store, 
+maka data2 harus dikirimkan ke actions...hal yang harus dilakukan pertama2 adalah
+
+1. didalam file komponent tersebut buat (misal komponen login.js) lakukan
+import { useDispatch, useSelector } from "react-redux";
+import {loginUser} from '../redux/actions/userActions';
+(loginUser disini adalah nama fungsi yang terdapat di file didlam folder actions)
+
+2.  buat sebuah fungsi (misalnya loginUser) didalam file sebuah file.js (misalnya userActions.js)
+    dimana file.js tersbut di letakan didalam folder actions
+    (contoh penggunaan liat di file userActions.js langsung)
+
+3. fungsi loginUser yang dibuat di file misal userAction.js akan men dispatch data2 yang dibawa
+berdasarkan type nya
+(contoh penggunaan liat di file userActions.js langsung,..sudah dijelaskan alurnya disana)
+
+4. buat fungsi reducer di dalam file (misal namaReducer.js) lalu letakan didalam folder reducer
+(contoh penggunaan reducer liat di seluruh file reducer yang ada didalam folder reducers,..sudah dijelaskan alurnya disana)
+
+5. berdasarkan tahap no 1 setelah import { useDispatch, useSelector } from "react-redux";  maka buatlah
+-const dispatch = useDispatch()  didlam komponent tersebut
+- setelah buat itu,..maka bisa gunakan fungsi  dispatch(namaFungsiAction(data yang dikirim))
+- untuk memakai suatu state yang diambil dari global state maka gunkan fungsi
+const {nama statenya} = useSelector (state => state.nama reducernya);
+(contoh penggunaan liat di file login.js langsung,..sudah dijelaskan alurnya disana)
+
+
+
+
+
+
+
+
+
+
+
+

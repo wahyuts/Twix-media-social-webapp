@@ -4,6 +4,7 @@ Twix is a simple media social web that build based on twitter as the model.
 This project is created as a purpose to learn and become my boilerplate for some tech.
 
 *Note please access the branch "before-redux-update" if u want to see boilerplate without update redux*
+*Please go to folder src/redux to see HowToUseRedux.text if u want to know how to apply redux*
 
 Tech that have been used:
 1. ReactJs

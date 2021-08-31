@@ -2,7 +2,6 @@ import React,{useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import AppIcon from '../images/logo-trans.png';
-import axios from 'axios'
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Mui Grid and othet stuff 
@@ -87,8 +86,11 @@ const handleSubmit = async (event) => {
         email: email,
         password: password
     } 
+    
+    // mengirimkan data lewat dispatch yang diserahkan ke fungsi loginUser yang membawa userData dan props.history
+    // props.history ini perlu dimasukan agar fungsi loginUser bisa menggunkannya nanti
+    // buat apa props.history ? buat nge redirect halaman,..(props.history disini bukan punya react-router-dom,..tapi bawaan react js)
     dispatch(loginUser(userData, props.history))
-    // fetchingData();
 }
 
 // fungsi untuk mengubah value email pada setiap ketikan yang kita ketik

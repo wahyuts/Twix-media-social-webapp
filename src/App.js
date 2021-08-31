@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import themeFile from './util/theme';
 import AuthRoute from './util/AuthRoute';
@@ -10,8 +10,11 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles'
 
 //Redux
-import {Provider} from 'react-redux';  // saluran untuk menyalurkan tempat penyimpanan
+import {Provider} from 'react-redux';  
 import store from './redux/store';
+// import { useDispatch, useSelector } from "react-redux";
+import {SET_AUTHENTICATED} from './redux/type';
+import {logoutUser, getUserData} from './redux/actions/userActions';
 
 //Components
 import Navbar from './components/Navbar';
@@ -20,6 +23,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import axios from 'axios';
 
 //Setting custom theme nya Mat ui (dok nya liat di material ui customization)
 // Tujuan dari custom theme ini adalah untuk mengganti style default bawaan dari mat ui sesuai dengan selera kita, karena kalo gak diganti ke lock sama style mat ui
@@ -28,7 +32,7 @@ import SignUp from './pages/SignUp';
 // jadi jika ada 2 komponen menggunakan style yang sama maka className nya bisa di masukan disini
 
 //perbandingan nya seperti global css : css khusus untuk komponent tertentu 
-const theme = createTheme(themeFile);
+const theme = createTheme(themeFile); // baris ini menyimpan them di ecternal (disini di theme.js)
 
 
 const App = () => {
@@ -38,8 +42,9 @@ const App = () => {
   //menyimpan token dari local strogae di variable token
   const token = localStorage.FBIdToken;
 
-  // jika suatu variable di deklare tanpa value,..berati variable tersebut bernilai kosong saat itu
-  let authenticated;
+  // const dispatch = useDispatch();
+
+  // const ss = authenticated
 
   // conditional logic jika token kita expired atau habis masa berlakunya maka user akan diarahkan ke halaman login untuk login ulang
   if(token) {
@@ -47,11 +52,17 @@ const App = () => {
     // untuk decode token kita pake lib jwt-decode
     const decodedToken = jwtDecode(token);
     console.log(decodedToken);
+    //jika tanggal yang ada didalam token kurang dari hari ini, maka token expired dan otomatis log out
+    // jika lebih dari tanggal hari ini maka tampilkan userData
     if(decodedToken.exp * 1000 < Date.now()){
+      store.dispatch(logoutUser())
       window.loaction.href = '/login';
-      authenticated = false;
     } else {
-      authenticated = true;
+      store.dispatch({type: SET_AUTHENTICATED})
+      // dispatch({type: SET_AUTHENTICATED});
+      axios.defaults.headers.common['Authorization'] = token
+      store.dispatch(getUserData())
+      // dispatch(getUserData())
     }
   }
 
@@ -65,8 +76,8 @@ const App = () => {
                       <Navbar/>{/**Komponen yang berada diluar switch tapi masih berada didalam router tidak akan terganti komponennya */}
                       <Switch> {/**Komponen yang berada didalam switch akan terganti jika di klik komponennya */}
                           <Route exact path='/' component={Home}/>
-                          <AuthRoute exact path='/login' component={Login} authenticated={authenticated}/>
-                          <AuthRoute exact path='/signup' component={SignUp} authenticated={authenticated}/>
+                          <AuthRoute exact path='/login' component={Login}  />
+                          <AuthRoute exact path='/signup' component={SignUp}  />
                       </Switch>
                     </div>
                 </Router>
