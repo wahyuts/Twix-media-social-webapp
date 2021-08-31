@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import ScreamDetail from '../components/ScreamDetail';
+import Profile from '../components/Profile';
 
 const Home = () => {
 
@@ -43,7 +44,7 @@ const Home = () => {
                         {recentScreamsMarkup}
                     </Grid>
                     <Grid item sm={4} xs={12}>
-                        <p>Profile</p>
+                        <Profile/>
                     </Grid>
                 </Grid>
             </div>
