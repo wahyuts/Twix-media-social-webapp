@@ -1,4 +1,5 @@
 import {SET_ERRORS,CLEAR_ERRORS,LOADING_UI} from '../type';
+// Tempat semua state yang berhubungan dengan UI
 
 const initialState = {
     loading: false,

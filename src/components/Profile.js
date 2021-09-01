@@ -5,17 +5,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import {uploadImage, logoutUser} from '../redux/actions/userActions';
 import dayjs from 'dayjs';
+import EditDetails from '../components/EditDetails'; 
 
 //Mui stuff
 import Button from '@material-ui/core/Button';
 import MuiLink from '@material-ui/core/Link';
 import {IconButton, Typography}  from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
+import { Paper } from '@material-ui/core';
 
 
 //Redux stuff
 import { useDispatch, useSelector } from "react-redux";
-import { Paper } from '@material-ui/core';
 
 //Icons
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -80,7 +81,7 @@ const Profile = () => {
 
     // const {classes} = props
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     //fungsi buat setor upload image ke server
     const handleImage = (event) => {
@@ -155,7 +156,9 @@ const Profile = () => {
                         <KeyboardReturn color="primary"/>
                     </IconButton>
                 </Tooltip>
-                {/* <EditDetails/> */}
+
+                {/*komponen tepat dibawah ini adalah modal dialog yang dibuat oleh mat ui,..cukup call aja,..ngoding nya didalem komponent tersebut*/}
+                <EditDetails/>
             </div>
         </Paper>
     ) : (

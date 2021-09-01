@@ -1,8 +1,15 @@
+//Tempat semua fungsi yang berbunungan dengan user dimana akan ke trigger jika suatu action dilakukan
+
+// CTH SEDERHANANYA : ketika lu pencet tombol login nah baru fungsi yang ada di mari dijalankan misal fungsi 
+                    //login user
+
 import axios from 'axios';
 import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER} from '../type';
 
+
+// Fungsi User ketika login
 export const loginUser = (userData, history) => (dispatch) => {
-    dispatch({ type: LOADING_UI});
+    dispatch({ type: LOADING_UI}); 
     axios.post('/signin', userData)
         .then((res)=>{
             // console.log(res.data);
@@ -20,6 +27,7 @@ export const loginUser = (userData, history) => (dispatch) => {
     
 }
 
+//Fungsi user ketika signup
 export const signupUser = (newUserData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI});
     axios.post('/signup', newUserData)
@@ -39,6 +47,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     
 }
 
+//Logout user
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization'];
@@ -46,6 +55,7 @@ export const logoutUser = () => (dispatch) => {
     dispatch({ type: SET_UNAUTHENTICATED});
 }
 
+//Fungsi mau dapetin data2 user (biasanya buat user profile atau mau cantumin nama di headnav)
 export const getUserData = () => (dispatch) => {
     dispatch({type: LOADING_USER});
     axios.get('/user')
@@ -60,10 +70,22 @@ export const getUserData = () => (dispatch) => {
         })
 }
 
+//Fungsi buat bisa upload image
 export const uploadImage = (formData) => (dispatch) => {
     dispatch({type: LOADING_USER});
     axios.post('/user/image', formData)
         .then(() => {
+            dispatch(getUserData());
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+}
+
+export const editUserDetails = (userDetails) => (dispatch) => {
+    dispatch({type: LOADING_USER});
+    axios.post('/user', userDetails)
+        .then(()=>{
             dispatch(getUserData());
         })
         .catch((err)=>{
