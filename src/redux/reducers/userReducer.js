@@ -18,7 +18,8 @@ export default function(state = initialState, action) {
             };
         case SET_UNAUTHENTICATED: // UNTUK SIGN OUT
             return{
-                initialState
+                initialState,
+                credentials: {}
             };
         case SET_USER:
             return{
