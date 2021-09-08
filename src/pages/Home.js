@@ -4,27 +4,25 @@ import axios from 'axios';
 import ScreamDetail from '../components/ScreamDetail';
 import Profile from '../components/Profile';
 
+import {getScreams} from '../redux/actions/dataActions'
+
+//Redux stuff
+import { useDispatch, useSelector } from "react-redux";
+
 const Home = () => {
 
-    const [screams,setScreams] = useState(null)
+    const { screams, loading} = useSelector (state => state.data);
+
+    const dispatch = useDispatch();
+
+    // const [screams,setScreams] = useState(null)
 
         useEffect(()=>{
-            const getData = async () => {
-                try{
-                    const response = await axios.get('/screams');
-                    // const data = await response.json();
-                    setScreams(response.data);
-                    console.log('liat screams', screams);
-                }
-                catch(err){
-                    console.log(err);
-                }
-            };
-            getData();
+            dispatch(getScreams())
         },[])
-        console.log('liat screams', screams);
+        // console.log('liat screams', screams);
 
-        let recentScreamsMarkup = screams ? (
+        let recentScreamsMarkup = !loading ? ( // !loading ini artinya
             screams.map((scream)=>{
                 return (
                     <ScreamDetail key={scream.screamId} scream={scream}/>
@@ -43,7 +41,7 @@ const Home = () => {
                     <Grid item sm={8} xs={12}>
                         {recentScreamsMarkup}
                     </Grid>
-                    
+
                     <Grid item sm={4} xs={12}>
                         <Profile/>
                     </Grid>
