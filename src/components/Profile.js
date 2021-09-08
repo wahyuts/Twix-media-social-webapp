@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = () => {
 
-    const {credentials: {name, createdAt, imageUrl, bio, website, location, loading},authenticated} = useSelector (state => state.user);
+    const {credentials: {name, createdAt, imageUrl, bio, website, location},loading,authenticated} = useSelector (state => state.user);
 
     // const {classes} = props
     const classes = useStyles();
