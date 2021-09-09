@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import MyButton from '../util/MyButton';
+import DeleteScream from './DeleteScream';
 import withStyles from '@material-ui/core/styles/withStyles'; //1
 
 // Cara implementasi  style withStyle di komponent tertentu (untuk urutan prosesnya liat no disamping line code)
@@ -31,6 +32,7 @@ import { FavoriteBorder } from '@material-ui/icons';
 
 const styles = {
     card:{
+        position: 'relative',
         display: 'flex',
         marginBottom: 20
     },
@@ -57,7 +59,7 @@ const ScreamDetail = (props,i) => {
     const {classes, scream: {body, createdAt, userImage, userHandle, screamId, commentCount, likeCount }} = props
 
     const dispatch = useDispatch();
-    const {likes,authenticated} = useSelector (state => state.user);
+    const {likes,authenticated, credentials: {name}} = useSelector (state => state.user);
 
 
     const likedScream = () => {
@@ -94,7 +96,12 @@ const ScreamDetail = (props,i) => {
                 <FavoriteBorder color="primary"/>
             </MyButton>
         )
-       
+    )
+
+    const deleteButton = authenticated && userHandle === name ? (
+        <DeleteScream screamId={screamId}/>
+    ) : (
+        null
     )
 
     return ( 
@@ -114,6 +121,8 @@ const ScreamDetail = (props,i) => {
                         color='primary'>
                             {userHandle}
                     </Typography>
+
+                    {deleteButton}
 
                     <Typography 
                         variant='body2' 
