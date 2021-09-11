@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import themeFile from './util/theme';
 import AuthRoute from './util/AuthRoute';
 import jwtDecode from 'jwt-decode';
@@ -36,16 +37,16 @@ const theme = createTheme(themeFile); // baris ini menyimpan them di ecternal (d
 
 
 const App = () => {
-// class App extends Component {
-  // render() {
 
   //menyimpan token dari local strogae di variable token
   const token = localStorage.FBIdToken;
 
+  const history = useHistory();
+  const changePage = () => history.push('/login');
+
   // const dispatch = useDispatch();
 
-  // const ss = authenticated
-
+  useEffect (()=>{
   // conditional logic jika token kita expired atau habis masa berlakunya maka user akan diarahkan ke halaman login untuk login ulang
   if(token) {
     //token adalah kode rahasia yang di encrypt jadi untuk mengetahui isi token diperlukan decode token
@@ -55,8 +56,9 @@ const App = () => {
     //jika tanggal yang ada didalam token kurang dari hari ini, maka token expired dan otomatis log out
     // jika lebih dari tanggal hari ini maka tampilkan userData
     if(decodedToken.exp * 1000 < Date.now()){
-      store.dispatch(logoutUser())
-      window.loaction.href = '/login';
+      store.dispatch(logoutUser());
+      changePage();
+      // window.loaction.href = '/login';
     } else {
       store.dispatch({type: SET_AUTHENTICATED})
       // dispatch({type: SET_AUTHENTICATED});
@@ -65,6 +67,8 @@ const App = () => {
       // dispatch(getUserData())
     }
   }
+
+})
 
     return (
       // Provider dari redux harus me wrap semua komponen agar kompenen tersebut bisa kases global store

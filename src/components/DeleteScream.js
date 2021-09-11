@@ -48,7 +48,7 @@ const DeleteScream = (props) => {
 
     return ( 
         <Fragment>
-            <MyButton tip="Delete Scream" onClick={handleOpen} btnClassName={classes.deleteButton}>
+            <MyButton tip="Delete Scream" onClick={handleOpen} btnClassName={classes.deleteButton} >
                 <DeleteOutline color="secondary"/>
             </MyButton>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">

@@ -25,13 +25,16 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import EditIcon from '@material-ui/icons/Edit';
 import { KeyboardReturn } from '@material-ui/icons';
 
-// const styles =  {
+// Penggunaan style mat kali ini(dibawah ini) memadukan konsep material ui dengan css biasa
+// untuk CSS biasa hanya akan aktif efeknya jika penempatannya masih didalam CSS material UI
+// cth : classs .profile-image akan aktif jika komponennya (komponen yang ditanam class .profile-image) 
+//       berada didalam komponen yang ditanam class profile (komponen yang pake classes.styles mat ui)
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: 20
       },
-      profile: {
-        '& .image-wrapper': {
+      profile: { // profile adalah cth penulisan class mat ui
+        '& .image-wrapper': { // '.image-wrapper adalah penulisan name class css biasa (hanya bisa dilakukan didalam class mat ui)
           textAlign: 'center',
           position: 'relative',
           '& button': {
@@ -163,7 +166,7 @@ const Profile = () => {
         </Paper>
     ) : (
         <Paper className={classes.paper}>
-            <Typography variant="body2" align="center">
+            <Typography component="div" variant="body2" align="center">
                 No profile found, please login again
                 <div className={classes.buttons}>
                     <Button variant="contained" color="primary" component={Link} to="/login">

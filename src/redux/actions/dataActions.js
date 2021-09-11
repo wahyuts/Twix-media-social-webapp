@@ -4,7 +4,7 @@
                     //login user
 
 import axios from 'axios';
-import {SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM} from '../type';
+import {SET_SCREAMS, SET_SCREAM, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, STOP_LOADING_UI, LOADING_UI, POST_SCREAM, SET_ERRORS, CLEAR_ERRORS} from '../type';
 
 // get all screams
 export const getScreams = () => dispatch => {
@@ -22,6 +22,41 @@ export const getScreams = () => dispatch => {
                 payload: []
             })
         })
+}
+
+//Get one scream full detail
+export const getOneScream = (screamId) => dispatch => {
+    dispatch({ type: LOADING_UI});
+    axios.get(`/scream/${screamId}`)
+        .then((res)=>{
+            dispatch({
+                type: SET_SCREAM,
+                payload: res.data
+            });
+            dispatch({ type: STOP_LOADING_UI});
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+}
+
+//Post a scream
+export const postScream = (newScream) => dispatch =>{
+    dispatch({type: LOADING_UI})
+    axios.post('/scream',newScream)
+        .then((res)=>{
+            dispatch({
+                type: POST_SCREAM,
+                payload: res.data
+            });
+            dispatch({ type: CLEAR_ERRORS });
+        })
+        .catch((err)=>{
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            });
+        });
 }
 
 //Like a scream
@@ -66,6 +101,11 @@ export const deleteScream = (screamId) => (dispatch) => {
         .catch((err)=>{
             console.log(err)
     })
+}
+
+//Khusus bersihin error aja
+export const bersihinError = () => dispatch =>{
+    dispatch({ type: CLEAR_ERRORS });
 }
 
 const getAuthorizationHeader = () => {

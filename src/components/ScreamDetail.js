@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import MyButton from '../util/MyButton';
+import LikeButton from './LikeButton';
 import DeleteScream from './DeleteScream';
+import ScreamExtendDialog from './ScreamExtendDialog';
 import withStyles from '@material-ui/core/styles/withStyles'; //1
 
 // Cara implementasi  style withStyle di komponent tertentu (untuk urutan prosesnya liat no disamping line code)
@@ -21,13 +23,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import {Typography}  from '@material-ui/core';
 
 //Redux stuff
-import {likeScream, unlikeScream} from '../redux/actions/dataActions';
+// import {likeScream, unlikeScream} from '../redux/actions/dataActions';
 import {useDispatch, useSelector} from 'react-redux';
 
 //icons
 import ChatIcon from '@material-ui/icons/Chat'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import { FavoriteBorder } from '@material-ui/icons';
 
 
 const styles = {
@@ -41,11 +41,32 @@ const styles = {
     },
     content: {
         padding: 25,
-        objectFit: 'cover'
+        objectFit: 'cover',
+        width:690
+    },
+    superDiv: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    disDiv1: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    disDiv2: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 2
+    },
+    spanLike: {
+        marginBottom: 2
+    },
+    spanComment: {
+        marginBottom: 5
     }
 }
 
-const ScreamDetail = (props,i) => {
+const ScreamDetail = (props,i) => { // pengirim props disini dari home page
+
     // untuk membuat postingan tanggal seperti "14 jam yang lalu", "satu hari yang lalu" cara nya
     //1. import dayjs from 'dayjs';
     //2. import relativeTime from 'dayjs/plugin/relativeTime';
@@ -55,49 +76,13 @@ const ScreamDetail = (props,i) => {
     dayjs.extend(relativeTime) // code ini untuk mengaktifkan plugin relativeTime yang sudah diimport
 
     // const { classes,xxx, xxx } = props   adalah destructuring dari parameter props   const ScreamDetail = (props) => {}
-    // const {classes, scream: {body, createdAt, userImage, userHandle, screamId, likeCount, commentCount }} = props
     const {classes, scream: {body, createdAt, userImage, userHandle, screamId, commentCount, likeCount }} = props
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const {likes,authenticated, credentials: {name}} = useSelector (state => state.user);
 
-
-    const likedScream = () => {
-        if(likes && likes.find(like => like.screamId === screamId))
-            return true;
-            else return false
-    }
-
-    const likeScreammm = () => {
-        dispatch(likeScream(screamId));
-    }
-
-    const unlikeScreammm = () => {
-        dispatch(unlikeScream(screamId));
-    }
-
-    useEffect(()=>{
-        likedScream();
-    },[])
-
-    const likeButton = !authenticated ? (
-        <MyButton tip="Like">
-            <Link to="/login">
-                <FavoriteBorder color="primary"/>
-            </Link>
-        </MyButton>
-    ) : (
-        likedScream() ? (
-            <MyButton tip="Undo like" onClick={unlikeScreammm}>
-                <FavoriteIcon color="primary"/>
-            </MyButton>
-        ) : (
-            <MyButton tip="Like" onClick={likeScreammm}>
-                <FavoriteBorder color="primary"/>
-            </MyButton>
-        )
-    )
-
+    // cth pembuatan button dengan logic conditional didalamnnya
+    // jadi logic buttonnya di taruh didalam sebuah variable which is variable tersebut yang akan digunakan sebagai buttonnya
     const deleteButton = authenticated && userHandle === name ? (
         <DeleteScream screamId={screamId}/>
     ) : (
@@ -107,11 +92,18 @@ const ScreamDetail = (props,i) => {
     return ( 
         <div>
             <Card className={classes.card}>
-                
+                <div>
+                    {/* <img src={userImage} alt="Profil Image" className={classes.image}/> */}
+                     {/* <CardMedia 
+                            image={userImage} 
+                            title='Profile Image'
+                             className={classes.image}/> */}
+                </div>
+
                 <CardMedia 
-                    image={userImage} 
-                    title='Profile Image'
-                    className={classes.image}/>
+                            image={userImage} 
+                            title='Profile Image'
+                             className={classes.image}/>
             
                 <CardContent className={classes.content}>
                     {/** untuk setiap penulisan text misal paragraph, h1, body dsb jika itu di dalam komponen mat ui maka harus memakain Typhography */} 
@@ -121,22 +113,31 @@ const ScreamDetail = (props,i) => {
                         color='primary'>
                             {userHandle}
                     </Typography>
-
+                    
+                    {/** cth variable custom conditional button diterapkan */}
                     {deleteButton}
 
                     <Typography 
                         variant='body2' 
                         color='textSecondary'>
-                            {dayjs(createdAt).fromNow()}
+                            {dayjs(createdAt).fromNow()} {/** code untuk membuat tanggal "since 14 days ago" */}
                     </Typography>
 
                     <Typography variant='body1'>{body}</Typography>
-                    {likeButton}
-                    <span>{likeCount} likes</span>
-                    <MyButton tip="comments">
-                        <ChatIcon color="primary"/>
-                    </MyButton>
-                    <span>{commentCount} comments</span>
+                    <div className={classes.superDiv}>
+                        <div className={classes.disDiv1}>
+                            <LikeButton screamId={screamId} likes={likes} authenticated={authenticated}/> 
+                            {/* {likeButton} */}
+                            <span className={classes.spanLike}>{likeCount} likes</span>
+                        </div>
+                        <div className={classes.disDiv2}>
+                            <MyButton tip="comments">
+                                <ChatIcon color="primary"/>
+                            </MyButton>
+                            <span className={classes.spanComment}>{commentCount} comments</span>
+                        </div>
+                        <ScreamExtendDialog screamId={screamId} userHandle={userHandle}/>
+                    </div>
                 </CardContent>
             </Card>
         </div>

@@ -25,7 +25,7 @@ const Home = () => {
         let recentScreamsMarkup = !loading ? ( // !loading ini artinya
             screams.map((scream)=>{
                 return (
-                    <ScreamDetail key={scream.screamId} scream={scream}/>
+                    <ScreamDetail key={scream.screamId} scream={scream}/> // screamDetail ini sperti komponen card list
                     // <p key={i}>{scream.body}</p>
                 )
             })

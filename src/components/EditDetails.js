@@ -11,10 +11,10 @@ import {IconButton, Typography}  from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog'; // modal nya mat ui
+import DialogActions from '@material-ui/core/DialogActions'; // buat container button didalam modal
+import DialogContent from '@material-ui/core/DialogContent'; // buat isi modalnya
+import DialogTitle from '@material-ui/core/DialogTitle'; // judul didalam modalnya
 
 //Icon Mui
 import EditIcon from '@material-ui/icons/Edit';
@@ -82,7 +82,7 @@ const EditDetails = () => {
     }
 
     return ( 
-        <Fragment>
+        <Fragment> 
             <Tooltip title="Edit Details" placement="top">
                 <IconButton onClick={handleOpen} className={classes.button}>
                     <EditIcon color="primary"/>
@@ -149,7 +149,8 @@ const EditDetails = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Fragment>
+        </Fragment> 
+        
      );
 }
  
