@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect,useState} from 'react';
-import {editUserDetails} from '../redux/actions/userActions';
+import {editUserDetails} from '../../redux/actions/userActions';
 // import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 

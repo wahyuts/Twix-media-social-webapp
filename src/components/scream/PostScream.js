@@ -1,18 +1,13 @@
-import React, {Fragment, useEffect,useState,useRef} from 'react';
-// import { CSSTransition } from "react-transition-group";
-import MyButton from '../util/MyButton';
-import '../util/styles.css'
+import React, {Fragment, useEffect,useState} from 'react';
+import MyButton from '../../util/MyButton';
 // import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
 //Redux stuff
 import { useDispatch, useSelector } from "react-redux";
-import {postScream} from '../redux/actions/dataActions';
-import {bersihinError} from '../redux/actions/dataActions';
+import {postScream} from '../../redux/actions/dataActions';
+import {bersihinError} from '../../redux/actions/dataActions';
 
-//Form by FormikYup
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
 
 //Mui stuff
 import {IconButton, Typography}  from '@material-ui/core';
@@ -23,7 +18,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
-// import Fade from '@material-ui/core/Fade';
 
 //Icon Mui
 import AddIcon from '@material-ui/icons/Add';
@@ -34,9 +28,7 @@ const useStyles = makeStyles (theme =>({
         margin: '10px auto 10px auto'
     },
     submitButton:{
-        position: "relative",
-        float: 'right',
-        marginTop: 10
+        position: "relative"
     },
     progress:{
         position: "absolute"
@@ -45,20 +37,17 @@ const useStyles = makeStyles (theme =>({
         position: "absolute",
         left: "90%",
         top: "5%"
-    },
-    errorMsg:{
-        color: "#d41a1a",
-        fontSize: 12
     }
 }))
 
-const PostScreamFormikYup = (props) => {
+const PostScream = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {loading} = useSelector (state => state.UI);
+    const {loading, errors} = useSelector (state => state.UI);
 
     const [open, setOpen] = useState(false);
-    // const dialogRef = useRef();
+    const [body, setBody] = useState('');
+    const [showErrors,setShowErrors] = useState({});
 
     // handleOpen buat open dialog
     const handleOpen = () => {
@@ -67,64 +56,49 @@ const PostScreamFormikYup = (props) => {
 
     // handleClose buat close dialog
     const handleClose = () => {
-        dispatch(bersihinError());
-        clearErrorFormik();
-        clearBody();
         setOpen(false);
+        dispatch(bersihinError());
+        setShowErrors("");
     }
 
-    const clearErrorFormik = () => {
-        formik.errors.body = ""
+    const handleChange = (event) => {
+        setBody(event.target.value)
     }
 
-    const clearBody = () => {
-        formik.values.body = ""
-    }
-
-
-    // useEffect(() => {
-    //     console.log("Dialog Ref", dialogRef.current);
-    //   }, []);
-
-    const formik = useFormik(
-        {
-            initialValues:{
-                body: ""
-            },
-            validationSchema: Yup.object({
-                body: Yup.string()
-                    .required("Must not be empty!")
-            }),
-            onSubmit: values => {
-                dispatch(postScream(values));
-                formik.errors.body = ""
-                formik.values.body = ""
-                setOpen(false);
-            }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const newScream = {
+            body: body
+        } 
+        if(!errors && !loading){
+            dispatch(postScream(newScream));
+            setBody("");
+            handleClose();
+        }
+        else{
+            setShowErrors(errors);
 
         }
-    )
+        // dispatch(postScream(newScream));
+    }
+
+    useEffect(()=>{
+        if(errors){
+            setShowErrors(errors)
+        }
+        console.log(showErrors)
+        if(!errors && !loading){
+            setBody("")
+            
+        }
+    })
 
     return ( 
         <Fragment>
-            <MyButton onClick={handleOpen} tip="Post a scream!" > {/**reuseable custom button */}
+            <MyButton onClick={handleOpen} tip="Post a scream!" >
                 <AddIcon/>
             </MyButton>
-            {/**dibawah ini modal dialog nya,..kalo gak di klik ga keliatan */}
-
-            {/* <CSSTransition
-                unmountOnExit
-                in={open}
-                timeout={20000}
-                classNames="my-node"
-            > */}
-            <Dialog 
-                open={open} 
-                onClose={handleClose} 
-                fullWidth 
-                maxWidth="sm"
-                //TransitionComponent={Transition} 
-            >
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                 <MyButton tip="close" onClick={handleClose} tipClassName={classes.closeButton}>
                     <CloseIcon/>
                 </MyButton>
@@ -132,7 +106,7 @@ const PostScreamFormikYup = (props) => {
                     Post a new scream
                 </DialogTitle>
                 <DialogContent>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <TextField
                             name="body"
                             type="text"
@@ -140,16 +114,13 @@ const PostScreamFormikYup = (props) => {
                             multiline
                             rows="3"
                             placeholder="Scream at your fellow apes"
-                            // error={showErrors.body ? true : false}
-                            // helperText={showErrors.body}
+                            error={showErrors.body ? true : false}
+                            helperText={showErrors.body}
                             className={classes.textField}
-                            onChange={formik.handleChange}
-                            value={formik.values.body}
+                            onChange={handleChange}
+                            value={body}
                             fullWidth 
                             />
-                            {formik.errors.body && formik.touched.body && (
-                            <p className={classes.errorMsg}>{formik.errors.body}</p>
-                        )}
                             <Button type="submit" variant="contained" color="primary"
                                     className={classes.submitButton} disabled={loading}>
                                     Submit
@@ -160,9 +131,8 @@ const PostScreamFormikYup = (props) => {
                     </form>
                 </DialogContent>
             </Dialog>
-            {/* </CSSTransition> */}
         </Fragment>
      );
 }
  
-export default PostScreamFormikYup;
+export default PostScream;

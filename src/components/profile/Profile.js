@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 // import withStyles from '@material-ui/core/styles/withStyles';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
-import {uploadImage, logoutUser} from '../redux/actions/userActions';
+import {uploadImage, logoutUser} from '../../redux/actions/userActions';
 import dayjs from 'dayjs';
-import EditDetails from '../components/EditDetails'; 
+import EditDetails from './EditDetails'; 
 
 //Mui stuff
 import Button from '@material-ui/core/Button';

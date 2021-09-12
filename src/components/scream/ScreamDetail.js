@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MyButton from '../util/MyButton';
+import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
 import DeleteScream from './DeleteScream';
 import ScreamExtendDialog from './ScreamExtendDialog';
@@ -76,6 +76,7 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
     dayjs.extend(relativeTime) // code ini untuk mengaktifkan plugin relativeTime yang sudah diimport
 
     // const { classes,xxx, xxx } = props   adalah destructuring dari parameter props   const ScreamDetail = (props) => {}
+    // props pada case ini dikirim dari homepage dengan state screams (scream pada kode dibawah ini hanyalah parameter)
     const {classes, scream: {body, createdAt, userImage, userHandle, screamId, commentCount, likeCount }} = props
 
     // const dispatch = useDispatch();

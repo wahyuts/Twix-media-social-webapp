@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import MyButton from '../util/MyButton';
+import MyButton from '../../util/MyButton';
 import {Link} from 'react-router-dom';
 
 //icons
@@ -7,7 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FavoriteBorder } from '@material-ui/icons';
 
 //Redux
-import {likeScream, unlikeScream} from '../redux/actions/dataActions';
+import {likeScream, unlikeScream} from '../../redux/actions/dataActions';
 import {useDispatch, useSelector} from 'react-redux';
 
 const LikeButton = (props) => {

@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react';
-import MyButton from '../util/MyButton';
+import MyButton from '../../util/MyButton';
 // import withStyles from '@material-ui/core/styles/withStyles'; //1
 
 //Mui Stuff
@@ -12,7 +12,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
 //Redux stuff
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteScream} from '../redux/actions/dataActions';
+import {deleteScream} from '../../redux/actions/dataActions';
 
 const useStyles = makeStyles(theme => ({
     deleteButton: {

@@ -1,8 +1,8 @@
 import React, { useEffect,useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import ScreamDetail from '../components/ScreamDetail';
-import Profile from '../components/Profile';
+import ScreamDetail from '../components/scream/ScreamDetail';
+import Profile from '../components/profile/Profile';
 
 import {getScreams} from '../redux/actions/dataActions'
 

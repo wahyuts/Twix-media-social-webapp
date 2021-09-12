@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom';
-import MyButton from '../util/MyButton';
-import PostScream from './PostScream';
-import PostScreamFormikYup from './PostScreamFormikYup';
+import MyButton from '../../util/MyButton';
+import PostScream from '../scream/PostScream';
+import PostScreamFormikYup from '../scream/PostScreamFormikYup';
 
 //Mui tool HeadNav
 import AppBar from '@material-ui/core/AppBar';

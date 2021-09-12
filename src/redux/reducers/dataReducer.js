@@ -25,10 +25,14 @@ export default function (state=initialState, action) {
                 scream: action.payload,
             }
         case LIKE_SCREAM:
+            //tentukan index terlebih dahulu dari state screams dan simpan di variable index
             let index = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId);
+            //setelah index ditentukan, barulah update state screams berdasarkan indexnya
             state.screams[index] = action.payload;
+            // conditional if untuk state  scream (ingat state scream dan screams berbeda yah)
             if(state.scream.screamId === action.payload.screamId){
-                state.scream = action.payload;
+                state.scream.likeCount = action.payload.likeCount;
+                // state.scream = action.payload;
             }
             return{
                 ...state
@@ -38,7 +42,8 @@ export default function (state=initialState, action) {
             let index2 = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId);
             state.screams[index2] = action.payload;
             if(state.scream.screamId === action.payload.screamId){
-                state.scream = action.payload;
+                state.scream.likeCount = action.payload.likeCount
+                // state.scream = action.payload;
             }
             return{
                 ...state

@@ -1,10 +1,11 @@
 import React, {Fragment, useEffect,useState,useRef} from 'react';
-import MyButton from '../util/MyButton';
+import MyButton from '../../util/MyButton';
 import daysjs from 'dayjs';
 import {Link} from 'react-router-dom';
-import '../util/styles.css'
+import '../../util/styles.css'
 import dayjs from 'dayjs';
 import LikeButton from './LikeButton';
+import Comments from './Comments';
 import { makeStyles } from '@material-ui/core/styles';
 
 //Mui stuff
@@ -22,14 +23,19 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 //Redux stuff
 import { useDispatch, useSelector } from "react-redux";
-import {getOneScream} from '../redux/actions/dataActions';
-import {bersihinError} from '../redux/actions/dataActions';
+import {getOneScream} from '../../redux/actions/dataActions';
+import {bersihinError} from '../../redux/actions/dataActions';
 
 
 const useStyles = makeStyles(theme=>({
     invisibleSeperator:{
         border: "none",
         margin: 4
+    },
+    visibleSeperator:{
+        width:'100%',
+        borderBottom: '1px solid rgba(0,0,0,0.1)',
+        marginBottom: 20
     },
     profileImage:{
         maxWidth:200,
@@ -77,7 +83,7 @@ const useStyles = makeStyles(theme=>({
 
 const ScreamExtendDialog = (props) => {
     const {screamId} = props
-    const {scream : { body, createdAt, likeCount, commentCount, userImage, userHandle}} = useSelector (state => state.data);
+    const {scream : { body, createdAt, likeCount, commentCount, userImage, userHandle, comments}} = useSelector (state => state.data);
     const {likes,authenticated} = useSelector (state => state.user);
     const {loading,errors} = useSelector (state => state.UI);
 
@@ -141,6 +147,8 @@ const ScreamExtendDialog = (props) => {
                         </div>
                 </div>
             </Grid>
+            {/* <hr className={classes.visibleSeperator}/>  */}
+            <Comments comments={comments}/>
         </Grid>
     )
 
