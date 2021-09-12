@@ -4,7 +4,20 @@
                     //login user
 
 import axios from 'axios';
-import {SET_SCREAMS, SET_SCREAM, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, STOP_LOADING_UI, LOADING_UI, POST_SCREAM, SET_ERRORS, CLEAR_ERRORS} from '../type';
+import {
+    SET_SCREAMS, 
+    SET_SCREAM, 
+    LOADING_DATA, 
+    LIKE_SCREAM, 
+    UNLIKE_SCREAM, 
+    DELETE_SCREAM, 
+    STOP_LOADING_UI, 
+    LOADING_UI, 
+    POST_SCREAM, 
+    SET_ERRORS, 
+    CLEAR_ERRORS,
+    SUBMIT_COMMENT
+} from '../type';
 
 // get all screams
 export const getScreams = () => dispatch => {
@@ -86,6 +99,26 @@ export const unlikeScream = (screamId) => dispatch => {
         })
         .catch((err)=>{
             console.log(err)
+        })
+}
+
+//Submit a comment
+export const submitComment = (screamId, commentData) => dispatch => {
+    dispatch({type: LOADING_UI})
+    axios.post(`/scream/${screamId}/comment`, commentData)
+        .then((res)=>{
+            dispatch({
+                type: SUBMIT_COMMENT,
+                payload: res.data
+            });
+            dispatch(bersihinError());
+            dispatch({ type: STOP_LOADING_UI});
+        })
+        .catch((err)=>{
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            })
         })
 }
 

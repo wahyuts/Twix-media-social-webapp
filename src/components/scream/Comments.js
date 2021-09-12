@@ -60,7 +60,7 @@ const Comments = (props) => {
                             <hr className={classes.TopvisibleSeperator}/>
                         )}
                         <Grid item sm={12}>
-                            <Grid container>
+                            <Grid container> {/** container ini berarti flex */}
                                 <Grid item sm={2}>
                                     <img src={userImage} alt="comment" className={classes.commentImage}/>
                                 </Grid>
@@ -98,12 +98,6 @@ const Comments = (props) => {
         </Grid>
     )
 
-    
-    return ( 
-        <div>
-            
-        </div>
-     );
 }
  
 export default Comments;

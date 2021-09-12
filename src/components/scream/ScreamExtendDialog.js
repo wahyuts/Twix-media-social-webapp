@@ -1,11 +1,11 @@
 import React, {Fragment, useEffect,useState,useRef} from 'react';
 import MyButton from '../../util/MyButton';
-import daysjs from 'dayjs';
 import {Link} from 'react-router-dom';
 import '../../util/styles.css'
 import dayjs from 'dayjs';
 import LikeButton from './LikeButton';
 import Comments from './Comments';
+import CommentForm from './CommentForm';
 import { makeStyles } from '@material-ui/core/styles';
 
 //Mui stuff
@@ -99,6 +99,7 @@ const ScreamExtendDialog = (props) => {
 
     const handleClose = () => {
         setOpen(false);
+        dispatch(bersihinError());
     }
 
     const dialogMarkUp = loading ? (
@@ -147,8 +148,9 @@ const ScreamExtendDialog = (props) => {
                         </div>
                 </div>
             </Grid>
+            <CommentForm screamId={screamId}/>
             {/* <hr className={classes.visibleSeperator}/>  */}
-            <Comments comments={comments}/>
+            <Comments comments={comments}/> 
         </Grid>
     )
 
