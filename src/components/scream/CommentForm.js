@@ -13,6 +13,10 @@ import {submitComment} from '../../redux/actions/dataActions';
 
 
 const useStyles = makeStyles(theme=>({
+    invisibleSeperator:{
+        border: "none",
+        margin: 4
+    },
     visibleSeperator:{
         width:'100%',
         borderBottom: '1px solid rgba(0,0,0,0.1)',
@@ -28,11 +32,11 @@ const CommentForm = (props) => {
     const {errors, loading} = useSelector(state => state.UI);
     const {authenticated} = useSelector(state => state.user);
 
-    CommentForm.propTypes = {
-        submitComment: PropTypes.func.isRequired,
-        screamId: PropTypes.string.isRequired,
-        authenticated: PropTypes.bool.isRequired,
-    }
+    // CommentForm.propTypes = {
+    //     submitComment: PropTypes.func.isRequired,
+    //     screamId: PropTypes.string.isRequired,
+    //     authenticated: PropTypes.bool.isRequired,
+    // }
 
     const [body,setBody] = useState("");
     const [showErrors,setShowErrors] = useState({});
@@ -47,14 +51,6 @@ const CommentForm = (props) => {
         const commentData = {
             body: body
         } 
-        // if(!errors && !loading){
-        //     dispatch(submitComment(screamId,commentData));
-        //     setBody("");
-        // }
-        // else{
-        //     setShowErrors(errors);
-
-        // }
         dispatch(submitComment(screamId,commentData));
     }
 
@@ -82,6 +78,7 @@ const CommentForm = (props) => {
                     fullWidth
                     className={classes.textField}
                     />
+                <hr className={classes.invisibleSeperator}/>
                 <Button type="submit" variant="contained" color="primary"
                          className={classes.button}>
                             Submit
@@ -90,7 +87,7 @@ const CommentForm = (props) => {
                     )} */}
                 </Button>
             </form>
-            <hr className={classes.visibleSeperator}/>
+            {/* <hr className={classes.visibleSeperator}/> */}
         </Grid>
     ) : (
         null

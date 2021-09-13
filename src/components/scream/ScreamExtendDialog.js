@@ -82,8 +82,8 @@ const useStyles = makeStyles(theme=>({
 }))
 
 const ScreamExtendDialog = (props) => {
-    const {screamId} = props
-    const {scream : { body, createdAt, likeCount, commentCount, userImage, userHandle, comments}} = useSelector (state => state.data);
+    const {screamId, openDialog, userHandle} = props // screamId, openDialog, userHandle dikirim dari screamDetail
+    const {scream : { body, createdAt, likeCount, commentCount, userImage, comments}} = useSelector (state => state.data);
     const {likes,authenticated} = useSelector (state => state.user);
     const {loading,errors} = useSelector (state => state.UI);
 
@@ -91,16 +91,38 @@ const ScreamExtendDialog = (props) => {
     const dispatch = useDispatch();
 
     const [open,setOpen] = useState(false);
+    const [oldPath,setOldPath] = useState(null); // Tempat menampung lokasi url lama
+    const [newPath,setNewPath] = useState(''); // Tempat menampung lokasi url baru
 
     const handleOpen = () => {
+
+        window.history.pushState(null,null,newPath); //menuju URL  baru ketika di klik 
         setOpen(true);
         dispatch(getOneScream(screamId));
     }
+    console.log(newPath);
 
     const handleClose = () => {
+        window.history.pushState(null,null,oldPath); //menuju URL lama
         setOpen(false);
         dispatch(bersihinError());
     }
+
+    useEffect(()=>{
+        // if(oldPath === newPath){
+        //     setOldPath(`/user/${userHandle}`);
+        // }
+        setOldPath(window.location.pathname); // set URL lama
+        setNewPath(`/user/${userHandle}/scream/${screamId}`); //set URL baru
+
+        if(openDialog){
+            handleOpen();
+        }
+
+        
+    },[])
+
+    console.log(newPath)
 
     const dialogMarkUp = loading ? (
         <div className={classes.spinnerDiv}>

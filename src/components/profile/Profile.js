@@ -128,7 +128,7 @@ const Profile = () => {
                 <hr/>
                 <div className="profile-details">
                     {/** MuiLink ini adalah Link pada mat ui fungsinya sama dengan link pada umumnya CUMA ini harus di combine dengan link versi react router dom */}
-                    <MuiLink component={Link} to={`/users/${name}`} color='primary' variant="h5">
+                    <MuiLink component={Link} to={`/user/${name}`} color='primary' variant="h5">
                         @{name}
                     </MuiLink>
                     <hr/>

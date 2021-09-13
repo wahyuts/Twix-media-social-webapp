@@ -56,9 +56,10 @@ const Comments = (props) => {
                 const {body, createdAt, userImage, userHandle} = comment;
                 return(
                     <Fragment key={createdAt}>
-                        {index === comments.length-1 && (
+                        <hr className={classes.TopvisibleSeperator}/>
+                        {/* {index === comments.length-1 && (
                             <hr className={classes.TopvisibleSeperator}/>
-                        )}
+                        )} */}
                         <Grid item sm={12}>
                             <Grid container> {/** container ini berarti flex */}
                                 <Grid item sm={2}>
@@ -89,9 +90,9 @@ const Comments = (props) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        {index !== comments.length -1 && (
+                        {/* {index !== comments.length -1 && (
                             <hr className={classes.visibleSeperator}/>
-                        )}
+                        )} */}
                     </Fragment>
                 )
             })}

@@ -136,6 +136,24 @@ export const deleteScream = (screamId) => (dispatch) => {
     })
 }
 
+// get other user data (hanya data scream user saja yang didapet,..untuk data user nya bisa di dapet dari getUserData)
+export const getOtherUserData = (userHandle) => dispatch => {
+    dispatch({ type: LOADING_DATA })
+    axios.get(`/user/${userHandle}`)
+        .then((res)=>{
+            dispatch({
+                type: SET_SCREAMS,
+                   payload: res.data.screams
+            });
+        })
+        .catch(()=>{
+            dispatch({
+                type: SET_SCREAMS,
+                payload: null
+            });
+        });
+}
+
 //Khusus bersihin error aja
 export const bersihinError = () => dispatch =>{
     dispatch({ type: CLEAR_ERRORS });

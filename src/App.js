@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import themeFile from './util/theme';
 import AuthRoute from './util/AuthRoute';
 import jwtDecode from 'jwt-decode';
+import UserPage from './pages/UserPage';
 import './App.css';
 
 //Tool untuk create custom theme Material UI (alias bikin css sendiri ala mat ui)
@@ -42,7 +43,9 @@ const App = () => {
   const token = localStorage.FBIdToken;
 
   const history = useHistory();
-  const changePage = () => history.push('/login');
+  const changePage = () => {
+    history.push('/login');
+  }
 
   // const dispatch = useDispatch();
 
@@ -82,6 +85,8 @@ const App = () => {
                           <Route exact path='/' component={Home}/>
                           <AuthRoute exact path='/login' component={Login}  />
                           <AuthRoute exact path='/signup' component={SignUp}  />
+                          <Route exact path='/user/:handle' component={UserPage}  />
+                          <Route exact path='/user/:handle/scream/:screamId' component={UserPage}/>
                       </Switch>
                     </div>
                 </Router>

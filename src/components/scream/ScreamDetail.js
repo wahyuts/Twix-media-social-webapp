@@ -110,7 +110,7 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
                     {/** untuk setiap penulisan text misal paragraph, h1, body dsb jika itu di dalam komponen mat ui maka harus memakain Typhography */} 
                     <Typography 
                         variant='h5' 
-                        component={Link} to={`/users/${userHandle}`}
+                        component={Link} to={`/user/${userHandle}`}
                         color='primary'>
                             {userHandle}
                     </Typography>
@@ -137,7 +137,10 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
                             </MyButton>
                             <span className={classes.spanComment}>{commentCount} comments</span>
                         </div>
-                        <ScreamExtendDialog screamId={screamId} userHandle={userHandle}/>
+                        <ScreamExtendDialog 
+                            screamId={screamId} 
+                            userHandle={userHandle} 
+                            openDialog={props.openDialog}/> {/* khusus open dialog dikirim dari userPage*/}
                     </div>
                 </CardContent>
             </Card>

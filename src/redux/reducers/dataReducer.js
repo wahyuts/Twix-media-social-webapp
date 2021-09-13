@@ -62,12 +62,22 @@ export default function (state=initialState, action) {
                     ...state.screams
                 ]
             }
+        //untuk case submit comment ini agak berbeda dikarenakan kita akan mengupdate 2 state langsung dari action yang sama
+        //ingat setiap state terupdate redux akan melakukan rerender,...oleh karena itu kali ini tricknya akan berbeda
+        //kita akan mengupdate 2 state dengan 1 x re render (bukan 2 kali)
         case SUBMIT_COMMENT:
+            // Menentukan index yang dituju dari list state screams
+            let index4 = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId);
+            // Mengkopi seluruh state screams agar dapat digunakan di action ini tanpa harus re render state
+            let updatedScreams = JSON.parse(JSON.stringify(state.screams));  
+            updatedScreams[index4].commentCount += 1; // update commentCount di updateScreams
             return{
                 ...state,
-                scream: {
+                screams:updatedScreams, // update screams secara keseluruhan berdasarkan variable updateScreams
+                scream: { // update scream
                     ...state.scream,
-                    comments: [action.payload, ...state.scream.comments]
+                    comments: [action.payload, ...state.scream.comments],
+                    commentCount:state.scream.commentCount+1
                 }
             }
         default:
