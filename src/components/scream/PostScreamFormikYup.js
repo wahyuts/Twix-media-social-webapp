@@ -123,7 +123,6 @@ const PostScreamFormikYup = (props) => {
                 onClose={handleClose} 
                 fullWidth 
                 maxWidth="sm"
-                //TransitionComponent={Transition} 
             >
                 <MyButton tip="close" onClick={handleClose} tipClassName={classes.closeButton}>
                     <CloseIcon/>

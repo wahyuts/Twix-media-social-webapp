@@ -1,6 +1,6 @@
 //Tempat state yang berhubungan dengan semua atribut data user
 
-import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_SCREAM, UNLIKE_SCREAM} from '../type';
+import {SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_SCREAM, UNLIKE_SCREAM, MARK_NOTIFICATIONS_READ} from '../type';
 
 const initialState = {
     authenticated: false,
@@ -37,6 +37,11 @@ export default function(state = initialState, action) {
             return{
                 ...state,
                 loading: true
+            }
+        case MARK_NOTIFICATIONS_READ:
+            state.notifications.forEach(not => not.read = true);
+            return{
+                ...state
             }
         case LIKE_SCREAM:
             return{

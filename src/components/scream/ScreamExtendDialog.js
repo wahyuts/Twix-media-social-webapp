@@ -100,7 +100,6 @@ const ScreamExtendDialog = (props) => {
         setOpen(true);
         dispatch(getOneScream(screamId));
     }
-    console.log(newPath);
 
     const handleClose = () => {
         window.history.pushState(null,null,oldPath); //menuju URL lama
@@ -121,8 +120,6 @@ const ScreamExtendDialog = (props) => {
 
         
     },[])
-
-    console.log(newPath)
 
     const dialogMarkUp = loading ? (
         <div className={classes.spinnerDiv}>

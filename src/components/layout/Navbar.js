@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom';
 import MyButton from '../../util/MyButton';
+import Notifications from './Notifications';
 import PostScream from '../scream/PostScream';
 import PostScreamFormikYup from '../scream/PostScreamFormikYup';
 
@@ -12,7 +13,7 @@ import Button from '@material-ui/core/Button';
 //Icons
 // import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
-import Notifications from '@material-ui/icons/Notifications';
+// import Notifications from '@material-ui/icons/Notifications';
 
 
 //Redux stuff
@@ -40,9 +41,9 @@ const Navbar = () => {
                                     </MyButton>
                                 </Link>
                                 
-                                <MyButton tip="Notifications">
-                                    <Notifications color="primary"/>
-                                </MyButton>
+                                {/* <MyButton tip="Notifications"> */}
+                                    <Notifications/>
+                                {/* </MyButton> */}
                             </Fragment>
                         ) : ( 
                             <Fragment>

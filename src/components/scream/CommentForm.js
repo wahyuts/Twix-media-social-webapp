@@ -1,5 +1,4 @@
-import React, {Fragment, useEffect,useState,useRef} from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect,useState} from 'react';
 
 //Mui stuff
 import { makeStyles } from '@material-ui/core/styles';
@@ -58,7 +57,6 @@ const CommentForm = (props) => {
         if(errors){
             setShowErrors(errors)
         }
-        // console.log(showErrors)
         if(!errors && !loading){
             setBody("")
         }
@@ -82,12 +80,8 @@ const CommentForm = (props) => {
                 <Button type="submit" variant="contained" color="primary"
                          className={classes.button}>
                             Submit
-                        {/* {loading && ( 
-                        <CircularProgress size={30} className={classes.progress}/>
-                    )} */}
                 </Button>
             </form>
-            {/* <hr className={classes.visibleSeperator}/> */}
         </Grid>
     ) : (
         null

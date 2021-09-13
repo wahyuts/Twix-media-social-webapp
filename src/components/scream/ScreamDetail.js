@@ -23,7 +23,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import {Typography}  from '@material-ui/core';
 
 //Redux stuff
-// import {likeScream, unlikeScream} from '../redux/actions/dataActions';
 import {useDispatch, useSelector} from 'react-redux';
 
 //icons

@@ -4,7 +4,7 @@
                     //login user
 
 import axios from 'axios';
-import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER} from '../type';
+import {SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ} from '../type';
 
 
 // Fungsi User ketika login
@@ -82,11 +82,24 @@ export const uploadImage = (formData) => (dispatch) => {
         })
 }
 
+//FUngsi buat edit user detail
 export const editUserDetails = (userDetails) => (dispatch) => {
     dispatch({type: LOADING_USER});
     axios.post('/user', userDetails)
         .then(()=>{
             dispatch(getUserData());
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+}
+
+export const markNotificationsRead = (notificationIds) => (dispatch) => {
+    axios.post('/notifications', notificationIds)
+        .then((res)=>{
+            dispatch({
+                type: MARK_NOTIFICATIONS_READ,
+            });
         })
         .catch((err)=>{
             console.log(err)
