@@ -8,7 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import ToolTip from '@material-ui/core/ToolTip';
+import ToolTip from '@material-ui/core/Tooltip';
 import {Typhography, Typography} from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
 
