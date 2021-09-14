@@ -2,6 +2,9 @@ import React,{useEffect, useState} from 'react';
 import axios from 'axios';
 import ScreamDetail from '../components/scream/ScreamDetail';
 import StaticProfile from '../components/profile/StaticProfile';
+import ScreamSkeleton from '../util/ScreamSkeleton.js';
+import ProfileSkeleton from '../util/ProfileSkeleton';
+
 
 //Mat UI Stuff
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,7 +58,8 @@ const UserPage = (props) => {
     // )
 
     const screamsMarkup = loading ? (
-        <p>Loading Data ...</p>
+        <ScreamSkeleton/>
+        // <p>Loading Data ...</p>
     ) : screams === null ? (  // jika screams null
         <p>No screams from this user</p>
     ) : !screamIdParam ? ( 
@@ -82,7 +86,8 @@ const UserPage = (props) => {
                     </Grid>
                     <Grid item sm={4} xs={12}>
                         {profile === null ? (
-                            <p>Loading profile...</p>
+                            <ProfileSkeleton/>
+                            // <p>Loading profile...</p>
                         ) : (
                             <StaticProfile profile={profile}/>
                         )}

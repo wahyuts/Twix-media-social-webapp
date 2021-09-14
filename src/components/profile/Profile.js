@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {uploadImage, logoutUser} from '../../redux/actions/userActions';
 import dayjs from 'dayjs';
 import EditDetails from './EditDetails'; 
+import ProfileSkeleton from '../../util/ProfileSkeleton';
 
 //Mui stuff
 import Button from '@material-ui/core/Button';
@@ -177,7 +178,7 @@ const Profile = () => {
                 </div>
             </Typography>
         </Paper>
-    )): (<p>Loading...</p>)
+    )): (<ProfileSkeleton/>)
 
     return ( 
         <div>

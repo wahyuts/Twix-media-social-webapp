@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import ScreamDetail from '../components/scream/ScreamDetail';
 import Profile from '../components/profile/Profile';
+import ScreamSkeleton from '../util/ScreamSkeleton.js';
 
 import {getScreams} from '../redux/actions/dataActions'
 
@@ -30,7 +31,8 @@ const Home = () => {
                 )
             })
         ) : 
-        <p>Loading...</p>
+        <ScreamSkeleton/>
+        // <p>Loading...</p>
 
         return (
             // container pada grid ini adalah property grid dari mat ui,... efeknya adalah flex
