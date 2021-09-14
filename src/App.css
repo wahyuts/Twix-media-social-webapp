@@ -10,10 +10,20 @@ body{
 }
 .nav-container{
   margin:auto;
+  position: fixed;
+  top: 0;
+}
+.head{
+  position: fixed;
+  top: 50px ;
 }
 .nav-container svg{
   color:#fff;
 }
 a{
   text-decoration:none;
+}
+
+@media only screen and (max-width: 768px) {
+  
 }

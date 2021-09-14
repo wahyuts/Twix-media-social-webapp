@@ -10,7 +10,19 @@ import { FavoriteBorder } from '@material-ui/icons';
 import {likeScream, unlikeScream} from '../../redux/actions/dataActions';
 import {useDispatch, useSelector} from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    sizeIcon:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 20,
+        }
+    }
+}))
+
+
 const LikeButton = (props) => {
+    const classes = useStyles();
     const {screamId,likes,authenticated} = props // nilai prop ini dikirim dari ScreamDetail component
     // const {likes} = useSelector (state => state.user);
     const dispatch = useDispatch();
@@ -35,18 +47,18 @@ const LikeButton = (props) => {
     const likeButton = !authenticated ? (
         <Link to="/login">
             <MyButton tip="Like">
-                    <FavoriteBorder color="primary"/>
+                    <FavoriteBorder color="primary" className={classes.sizeIcon}/>
             </MyButton>
         </Link>
 
     ) : (
         likedScream() ? (
             <MyButton tip="Undo like" onClick={unlikeScreammm}>
-                <FavoriteIcon color="primary"/>
+                <FavoriteIcon color="primary" className={classes.sizeIcon}/>
             </MyButton>
         ) : (
             <MyButton tip="Like" onClick={likeScreammm}>
-                <FavoriteBorder color="primary"/>
+                <FavoriteBorder color="primary" className={classes.sizeIcon}/>
             </MyButton>
         )
     )

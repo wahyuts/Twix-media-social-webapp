@@ -9,7 +9,6 @@ import CommentForm from './CommentForm';
 import { makeStyles } from '@material-ui/core/styles';
 import {Desktop,Tablet,Mobile,Default} from '../../util/ReactResponsiveHooks';
 
-
 //Mui stuff
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -21,6 +20,7 @@ import {Typography}  from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import UnfoldMore from '@material-ui/icons/UnfoldMore';
 import ChatIcon from '@material-ui/icons/Chat';
+import ChatIconPress from '@material-ui/icons/Chat';
 
 //Redux stuff
 import { useDispatch, useSelector } from "react-redux";
@@ -42,11 +42,7 @@ const useStyles = makeStyles(theme=>({
         maxWidth:200,
         height:200,
         borderRadius: '50%',
-        objectFit: 'cover', // objectFit ini agar gambar tidak ter strech kalo ukurannya ga pas
-        // [theme.breakpoints.down('sm')]:{
-        //     position: 'absolute',
-        //     left: '55%'
-        // }
+        objectFit: 'cover' // objectFit ini agar gambar tidak ter strech kalo ukurannya ga pas
     },
     DialogContent:{
         padding: 20
@@ -64,6 +60,9 @@ const useStyles = makeStyles(theme=>({
     superDiv: {
         display: 'flex',
         alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: 'center'
+        }
     },
     disDiv1: {
         display: 'flex',
@@ -83,10 +82,21 @@ const useStyles = makeStyles(theme=>({
     closeButton:{
         position: 'absolute',
         left: '90%',
+    },
+    forHandle:{
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 80,
+            marginRight: 80
+        }
+    },
+    sizeIcon:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 20,
+        }
     }
 }))
 
-const ScreamExtendDialog = (props) => {
+const CommentButton = (props) => {
     const {screamId, openDialog, userHandle} = props // screamId, openDialog, userHandle dikirim dari screamDetail
     const {scream : { body, createdAt, likeCount, commentCount, userImage, comments}} = useSelector (state => state.data);
     const {likes,authenticated} = useSelector (state => state.user);
@@ -137,16 +147,24 @@ const ScreamExtendDialog = (props) => {
                     <img src={userImage} alt="Profile" className={classes.profileImage}/>
                 </Grid>
             </Desktop>
+            <Tablet>
+                <Grid item sm={5} style={{marginLeft: '40%', marginRight: '40%'}}> 
+                    <img src={userImage} alt="Profile" className={classes.profileImage}/>
+                </Grid>
+            </Tablet>
             <Mobile>
-                <Grid item sm={5} alignContent="center"> 
+                <Grid item sm={5} style={{marginLeft: '15%', marginRight: '15%'}}> 
                     <img src={userImage} alt="Profile" className={classes.profileImage}/>
                 </Grid>
             </Mobile>
+            
+            
             <Grid item sm={7}> 
                 <Typography
                     component={Link}
                     color="primary"
                     variant="h5"
+                    className={classes.forHandle}
                     to={`/user/${userHandle}`}
                 >
                     @{userHandle}
@@ -188,8 +206,8 @@ const ScreamExtendDialog = (props) => {
     return ( 
         <Fragment>
             {/* <MyButton onClick={handleOpen} tip="Expand scream"> */}
-            <MyButton onClick={handleOpen} tip="Expand scream" tipClassName={classes.expandButton}>
-                <UnfoldMore color="primary"/>
+            <MyButton onClick={handleOpen} tip="Expand scream">
+                <ChatIconPress color="primary" className={classes.sizeIcon}/>
             </MyButton>
             <Dialog
                 open={open} 
@@ -208,4 +226,4 @@ const ScreamExtendDialog = (props) => {
      );
 }
  
-export default ScreamExtendDialog;
+export default CommentButton;

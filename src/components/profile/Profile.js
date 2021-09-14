@@ -31,7 +31,8 @@ import { KeyboardReturn } from '@material-ui/icons';
 //       berada didalam komponen yang ditanam class profile (komponen yang pake classes.styles mat ui)
 const useStyles = makeStyles(theme => ({
     paper: {
-        padding: 20
+        padding: 20,
+        marginBottom:55
       },
       profile: { // profile adalah cth penulisan class mat ui
         '& .image-wrapper': { // '.image-wrapper adalah penulisan name class css biasa (hanya bisa dilakukan didalam class mat ui)

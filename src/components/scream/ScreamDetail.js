@@ -2,10 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
 import DeleteScream from './DeleteScream';
 import ScreamExtendDialog from './ScreamExtendDialog';
+import {Desktop,Tablet,Mobile,Default} from '../../util/ReactResponsiveHooks';
 import withStyles from '@material-ui/core/styles/withStyles'; //1
 
 // Cara implementasi  style withStyle di komponent tertentu (untuk urutan prosesnya liat no disamping line code)
@@ -16,20 +16,23 @@ import withStyles from '@material-ui/core/styles/withStyles'; //1
 // 4. buat  const {classes} = props   di dalam fungsi komponen utama 
 // 5. jangan lupa masukan props sebagai parameter di fungsi utama  ( cth  const ScreamDetail = (props) =>{}  )
 
-//Mui tool Card
+//Mui Stuff
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import {Typography}  from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 //Redux stuff
 import {useDispatch, useSelector} from 'react-redux';
 
 //icons
 import ChatIcon from '@material-ui/icons/Chat'
+import CommentButton from './CommentButton';
 
 
-const styles = {
+const useStyles = makeStyles(theme => ({
+// const styles = {
     card:{
         position: 'relative',
         display: 'flex',
@@ -37,15 +40,42 @@ const styles = {
     },
     image:{
         width: 200,
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 13,
+            marginTop: 13,
+            marginBottom: 13,
+            width: 300,
+          }
     },
     content: {
         padding: 25,
         objectFit: 'cover',
-        width:690
+        width:690,
+        [theme.breakpoints.down('sm')]: {
+            width:600,
+          },
+    },
+    fontMeasure:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 20,
+          },
+    },
+    fontMeasureParagraph:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 15
+        }
+    },
+    fontMeasureDate:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 13
+        }
     },
     superDiv: {
         display: 'flex',
         alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 12,
+        }
     },
     disDiv1: {
         display: 'flex',
@@ -61,11 +91,17 @@ const styles = {
     },
     spanComment: {
         marginBottom: 5
+    },
+    sizeIcon:{
+        fontSize: 20
+    },
+    divImage:{
+        marginLeft: 13,
     }
-}
+}))
 
 const ScreamDetail = (props,i) => { // pengirim props disini dari home page
-
+    const classes = useStyles();
     // untuk membuat postingan tanggal seperti "14 jam yang lalu", "satu hari yang lalu" cara nya
     //1. import dayjs from 'dayjs';
     //2. import relativeTime from 'dayjs/plugin/relativeTime';
@@ -76,7 +112,7 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
 
     // const { classes,xxx, xxx } = props   adalah destructuring dari parameter props   const ScreamDetail = (props) => {}
     // props pada case ini dikirim dari homepage dengan state screams (scream pada kode dibawah ini hanyalah parameter)
-    const {classes, scream: {body, createdAt, userImage, userHandle, screamId, commentCount, likeCount }} = props
+    const { scream: {body, createdAt, userImage, userHandle, screamId, commentCount, likeCount }} = props
 
     // const dispatch = useDispatch();
     const {likes,authenticated, credentials: {name}} = useSelector (state => state.user);
@@ -92,14 +128,6 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
     return ( 
         <div>
             <Card className={classes.card}>
-                <div>
-                    {/* <img src={userImage} alt="Profil Image" className={classes.image}/> */}
-                     {/* <CardMedia 
-                            image={userImage} 
-                            title='Profile Image'
-                             className={classes.image}/> */}
-                </div>
-
                 <CardMedia 
                             image={userImage} 
                             title='Profile Image'
@@ -110,7 +138,8 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
                     <Typography 
                         variant='h5' 
                         component={Link} to={`/user/${userHandle}`}
-                        color='primary'>
+                        color='primary'
+                        className={classes.fontMeasure}>
                             {userHandle}
                     </Typography>
                     
@@ -119,27 +148,37 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
 
                     <Typography 
                         variant='body2' 
-                        color='textSecondary'>
+                        color='textSecondary'
+                        className={classes.fontMeasureDate}
+                        >
                             {dayjs(createdAt).fromNow()} {/** code untuk membuat tanggal "since 14 days ago" */}
                     </Typography>
 
-                    <Typography variant='body1'>{body}</Typography>
+                    <Typography variant='body1' className={classes.fontMeasureParagraph}>{body}</Typography>
+
                     <div className={classes.superDiv}>
                         <div className={classes.disDiv1}>
-                            <LikeButton screamId={screamId} likes={likes} authenticated={authenticated}/> 
+                            <LikeButton screamId={screamId} likes={likes} authenticated={authenticated}/>
                             {/* {likeButton} */}
                             <span className={classes.spanLike}>{likeCount} likes</span>
                         </div>
                         <div className={classes.disDiv2}>
-                            <MyButton tip="comments">
-                                <ChatIcon color="primary"/>
-                            </MyButton>
+                            <CommentButton
+                                screamId={screamId} 
+                                userHandle={userHandle} 
+                                openDialog={props.openDialog}
+                            />
+                            {/* <MyButton tip="comments">
+                                <ChatIcon color="primary" className={classes.sizeIcon}/>
+                            </MyButton> */}
                             <span className={classes.spanComment}>{commentCount} comments</span>
                         </div>
-                        <ScreamExtendDialog 
-                            screamId={screamId} 
-                            userHandle={userHandle} 
-                            openDialog={props.openDialog}/> {/* khusus open dialog dikirim dari userPage*/}
+                        <Desktop>
+                            <ScreamExtendDialog 
+                                screamId={screamId} 
+                                userHandle={userHandle} 
+                                openDialog={props.openDialog}/> {/* khusus open dialog dikirim dari userPage*/}
+                        </Desktop>
                     </div>
                 </CardContent>
             </Card>
@@ -147,4 +186,5 @@ const ScreamDetail = (props,i) => { // pengirim props disini dari home page
      );
 }
  
-export default withStyles(styles)(ScreamDetail);
+export default ScreamDetail;
+// export default withStyles(styles)(ScreamDetail);

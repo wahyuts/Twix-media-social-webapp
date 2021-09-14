@@ -17,6 +17,7 @@ Other libary :
 2. relativeTime (for support dayjs)
 3. jwt-decode (for decode token)
 4. redux-thunk (middleware that will give us dispatch to run asycronus code in redux)
+5. React-responsive
 
 
 Feautes so far :
@@ -25,6 +26,7 @@ Feautes so far :
 3. Can lik,unlike status
 4. Can give comment
 5. Can delete status (only your own status)
+6. Implement Loading Skeleton
 
 Responsive website : 70% (still in the progress)
 

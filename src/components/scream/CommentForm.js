@@ -21,6 +21,18 @@ const useStyles = makeStyles(theme=>({
         borderBottom: '1px solid rgba(0,0,0,0.1)',
         marginBottom: 20
     },
+    formWidth:{
+        [theme.breakpoints.down('sm')]: {
+            width: '130%'
+        }
+    },
+    forWidthOnly:{
+        textAlign: 'center',
+        // [theme.breakpoints.down('sm')]: {
+        //     marginLeft: '5%',
+        //     marginRight: '5%'
+        // }
+    }
 }))
 
 
@@ -63,8 +75,8 @@ const CommentForm = (props) => {
     },[])
 
     const commentFormMarkUp = authenticated ? (
-        <Grid item sm={12} style={{ textAlign: 'center' }}>
-            <form onSubmit={handleSubmit}>
+        <Grid item sm={12} className={classes.forWidthOnly} >
+            <form onSubmit={handleSubmit}  className={classes.formWidth}>
                 <TextField
                     name="body"
                     typr="text"

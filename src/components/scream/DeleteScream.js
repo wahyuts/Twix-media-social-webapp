@@ -18,7 +18,10 @@ const useStyles = makeStyles(theme => ({
     deleteButton: {
         position: 'absolute',
         top: '10%',
-        left: '90%'
+        left: '90%',
+        [theme.breakpoints.down('sm')]:{
+            left: '88%',
+        }
     }
 }))
 

@@ -26,8 +26,8 @@ const Navbar = () => {
 // class Navbar extends Component {
     // render() {
         return (
-            <div>
-                <AppBar>
+            // <div>
+                <AppBar position="fixed">
                     <Toolbar className="nav-container">
                         {authenticated ? ( 
                             <Fragment>
@@ -55,7 +55,7 @@ const Navbar = () => {
                         
                     </Toolbar>
                 </AppBar>
-            </div>
+            // </div>
         )
     // }
 }
