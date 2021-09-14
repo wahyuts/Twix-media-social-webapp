@@ -36,7 +36,6 @@ import axios from 'axios';
 //perbandingan nya seperti global css : css khusus untuk komponent tertentu 
 const theme = createTheme(themeFile); // baris ini menyimpan them di ecternal (disini di theme.js)
 
-
 const App = () => {
 
   //menyimpan token dari local strogae di variable token
@@ -50,6 +49,8 @@ const App = () => {
   // const dispatch = useDispatch();
 
   useEffect (()=>{
+    axios.defaults.baseURL = "https://asia-southeast1-loginreg-api-wts.cloudfunctions.net/api"
+
   // conditional logic jika token kita expired atau habis masa berlakunya maka user akan diarahkan ke halaman login untuk login ulang
   if(token) {
     //token adalah kode rahasia yang di encrypt jadi untuk mengetahui isi token diperlukan decode token

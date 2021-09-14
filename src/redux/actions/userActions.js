@@ -12,7 +12,10 @@ export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI}); 
     axios.post('/signin', userData)
         .then((res)=>{
-            // console.log(res.data);
+            // console.log('babi',res.data);
+            // const FBIdToken = `Bearer ${res.data.token}`;
+            // localStorage.setItem('FBIdToken', FBIdToken);
+            // axios.defaults.headers.common['Authorization'] = FBIdToken;
             setAuthorizationHeader(res.data.token)
             dispatch(getUserData());
             dispatch({type: CLEAR_ERRORS});
@@ -58,6 +61,7 @@ export const logoutUser = () => (dispatch) => {
 //Fungsi mau dapetin data2 user (biasanya buat user profile atau mau cantumin nama di headnav)
 export const getUserData = () => (dispatch) => {
     dispatch({type: LOADING_USER});
+    // axios.get('https://asia-southeast1-loginreg-api-wts.cloudfunctions.net/api/user')
     axios.get('/user')
         .then(res => {
             dispatch({
