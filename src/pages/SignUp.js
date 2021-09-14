@@ -133,10 +133,10 @@ const handleChangeConfirmPassword = (event) => {
     setConfirmPassword(event.target.value)
 }
 
-console.log(name)
-console.log(email)
-console.log(password)
-console.log(confirmPassword)
+// console.log(name)
+// console.log(email)
+// console.log(password)
+// console.log(confirmPassword)
 
 
     return (

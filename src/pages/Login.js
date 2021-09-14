@@ -105,8 +105,8 @@ const handleChangePassword = (event) => {
     setPassword(event.target.value)
 }
 
-console.log(email)
-console.log(password)
+// console.log(email)
+// console.log(password)
 
     return (
         <div>
