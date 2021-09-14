@@ -46,9 +46,9 @@ const App = () => {
     history.push('/login');
   }
 
-  // const dispatch = useDispatch();
-
   useEffect (()=>{
+    //PERHATIAN : masukan code axios.defaults.baseURL JIKA anda memakai proxy URL di package.json
+    // JIKA TIDAK ADA CODE INI maka Production tidak akan bekerja walaupun development bisa
     axios.defaults.baseURL = "https://asia-southeast1-loginreg-api-wts.cloudfunctions.net/api"
 
   // conditional logic jika token kita expired atau habis masa berlakunya maka user akan diarahkan ke halaman login untuk login ulang

@@ -19,6 +19,8 @@ const Home = () => {
     // const [screams,setScreams] = useState(null)
 
         useEffect(()=>{
+            axios.defaults.baseURL = "https://asia-southeast1-loginreg-api-wts.cloudfunctions.net/api"
+
             dispatch(getScreams())
         },[])
         // console.log('liat screams', screams);
